@@ -2,6 +2,7 @@ const express = require("express");
 const deliveryRoutes = require("./src/routes/deliveryRoutes");
 const swaggerJSDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
+require("dotenv").config();
 
 const app = express();
 
@@ -17,7 +18,7 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:3000",
+        url: "https://food-delivery-backend-5amz.onrender.com/",
       },
     ],
   },
@@ -51,6 +52,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
  *                          total_distance:
  *                              type: number
  *                              description: The total distance for delivery in kilometers.
+ *                              example: 8
  *                          item_type:
  *                              type: string
  *                              enum: [perishable, non-perishable]
@@ -96,7 +98,13 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use("/api/v1/cost-estimate", deliveryRoutes);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log("Listening on port " + PORT));
+app.get("/", (req, res) => {
+  const htmlLink =
+    '<a href="https://food-delivery-backend-5amz.onrender.com/api-docs">Visit Swagger Documentation</a>';
+  res.send(`Click this link to go to the swagger documentation: ${htmlLink}`);
+});
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log("Listening on port " + port));
 
 module.exports = app;
