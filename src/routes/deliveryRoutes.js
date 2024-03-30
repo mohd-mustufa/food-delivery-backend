@@ -4,6 +4,6 @@ const calculateCost = require("../controllers/deliveryController");
 
 const router = Router();
 
-router.get("/", requestValidator, calculateCost);
+router.post("/", requestValidator, calculateCost);
 
 module.exports = router;

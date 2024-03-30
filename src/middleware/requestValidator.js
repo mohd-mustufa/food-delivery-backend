@@ -13,6 +13,8 @@ const requestValidator = (req, res, next) => {
   // Validate organization_id
   if (!organization_id) {
     return res.status(400).json({ error: "Organization ID is required" });
+  } else if (isNaN(organization_id)) {
+    res.status(400).json({ error: "Organization_id must be an integer" });
   }
 
   // Validate total_distance

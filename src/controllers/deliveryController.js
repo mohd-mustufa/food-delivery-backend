@@ -15,6 +15,12 @@ const calculateCost = async (req, res) => {
               `;
 
     const { rows } = await pool.query(query);
+
+    // Check if pricing details are found
+    if (rows.length === 0) {
+      return res.status(404).json({ error: "Pricing details not found" });
+    }
+
     const { base_distance_in_km, km_price, fix_price } = rows[0];
 
     // Calculate total price
@@ -33,7 +39,7 @@ const calculateCost = async (req, res) => {
     res.json({ total_price: totalPrice });
   } catch (error) {
     console.error("Error calculating delivery cost:", error.message);
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
